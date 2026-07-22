@@ -525,9 +525,9 @@ business trips alike.
 
 <h2 class="title" style="color:white;">Contact Us</h2>
 
-<p>📍 25 Luxury Avenue, Lagos, Nigeria</p>
+<p>📍 Luxury Avenue - Omisanjana, Ado - Ekiti, Nigeria</p>
 
-<p>📞 +234 800 000 0000</p>
+<p>📞 +234 916 319 0591</p>
 
 <p>✉ reservations@obasdelevate.com</p>
 
