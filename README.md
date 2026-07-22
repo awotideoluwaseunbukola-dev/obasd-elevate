@@ -26,6 +26,8 @@ color:#333;
 
 header{
 position:fixed;
+top:0; /* Added this to fix the header to the top */
+left:0; /* Added this to ensure it aligns perfectly with the left edge */
 width:100%;
 background:rgba(0,0,0,.7);
 display:flex;
@@ -523,9 +525,9 @@ business trips alike.
 
 <h2 class="title" style="color:white;">Contact Us</h2>
 
-<p>📍 25 Luxury Avenue, Lagos, Nigeria</p>
+<p>📍 25 Luxury Avenue, Omisanjana, Ado - Ekiti, Nigeria</p>
 
-<p>📞 +234 800 000 0000</p>
+<p>📞 +2349163190591</p>
 
 <p>✉ reservations@obasdelevate.com</p>
 
