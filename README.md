@@ -142,8 +142,31 @@
             background: #0d223a;
         }
 
-        .submit-btn:active {
-            transform: scale(0.98);
+        .submit-btn:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+        }
+
+        /* Status Alerts */
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
 
         /* Footer */
@@ -178,10 +201,13 @@
     <main class="container">
         <h2 class="section-title">Assignment Details</h2>
 
-        <!-- Direct HTML Form Submission (Guaranteed Delivery) -->
-        <form action="https://formsubmit.co/awotideoluwaseun@gmail.com" method="POST" enctype="multipart/form-data">
+        <!-- Status Message Banner -->
+        <div id="statusAlert" class="alert"></div>
+
+        <!-- Form submitting asynchronously via JS -->
+        <form id="assignmentForm" action="https://formsubmit.co/ajax/awotideoluwaseun@gmail.com" method="POST" enctype="multipart/form-data">
             
-            <!-- FormSubmit Email Customizations -->
+            <!-- FormSubmit Configurations -->
             <input type="hidden" name="_subject" value="New Student Assignment Submission!">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
@@ -225,7 +251,7 @@
                 <textarea id="comments" name="Comments" class="form-control" placeholder="Any notes for the instructor..."></textarea>
             </div>
 
-            <button type="submit" class="submit-btn">Submit Assignment</button>
+            <button type="submit" id="submitBtn" class="submit-btn">Submit Assignment</button>
 
         </form>
     </main>
@@ -235,10 +261,52 @@
     </footer>
 
     <script>
-        // Update text when student selects a file
-        document.getElementById('fileUpload').addEventListener('change', function(e) {
-            var fileName = e.target.files[0] ? e.target.files[0].name : 'Drag and drop your file here, or click to browse';
-            document.getElementById('fileText').innerText = 'Selected file: ' + fileName;
+        // File selection display text
+        const fileInput = document.getElementById('fileUpload');
+        const fileText = document.getElementById('fileText');
+
+        fileInput.addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'Drag and drop your file here, or click to browse';
+            fileText.innerText = 'Selected file: ' + fileName;
+        });
+
+        // AJAX Form Submission (Works seamlessly on GitHub Pages)
+        const form = document.getElementById('assignmentForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusAlert = document.getElementById('statusAlert');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Indicate loading state
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Submitting... Please wait...';
+            statusAlert.style.display = 'none';
+
+            const formData = new FormData(form);
+
+            fetch('https://formsubmit.co/ajax/awotideoluwaseun@gmail.com', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                statusAlert.className = 'alert alert-success';
+                statusAlert.innerText = 'Success! Your assignment has been submitted successfully.';
+                statusAlert.style.display = 'block';
+
+                form.reset();
+                fileText.innerText = 'Drag and drop your file here, or click to browse';
+            })
+            .catch(error => {
+                statusAlert.className = 'alert alert-error';
+                statusAlert.innerText = 'Oops! Something went wrong. Please check your network and try again.';
+                statusAlert.style.display = 'block';
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Submit Assignment';
+            });
         });
     </script>
 </body>
